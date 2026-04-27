@@ -189,12 +189,13 @@ with tab1:
 
     with col2:
         st.markdown("")  # Espace
-        # Bouton télécharger CSV
+        # Bouton télécharger CSV avec bon encodage
+        csv_data = df.to_csv(index=False, sep="\t").encode('utf-8-sig')
         st.download_button(
             label="📥 Télécharger CSV",
-            data=df.to_csv(index=False, sep="\t"),
+            data=csv_data,
             file_name="recap_vmph.csv",
-            mime="text/csv",
+            mime="text/csv; charset=utf-8",
             use_container_width=True
         )
 
