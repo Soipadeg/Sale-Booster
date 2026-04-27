@@ -174,7 +174,7 @@ with tab1:
     st.dataframe(df, use_container_width=True, hide_index=True)
 
     # Créer un texte formaté pour copier
-    recap_texte = df.to_csv(index=False, sep="\t")
+    recap_texte = df.to_csv(index=False, sep=",")
 
     # Bouton télécharger avec un layout
     col1, col2 = st.columns([3, 1])
@@ -190,7 +190,7 @@ with tab1:
     with col2:
         st.markdown("")  # Espace
         # Bouton télécharger CSV avec bon encodage
-        csv_data = df.to_csv(index=False, sep="\t").encode('utf-8-sig')
+        csv_data = df.to_csv(index=False, sep=",").encode('utf-8-sig')
         st.download_button(
             label="📥 Télécharger CSV",
             data=csv_data,
