@@ -11,11 +11,11 @@ st.set_page_config(
 
 # Titre et description
 st.title("📊 Sales Booster")
-st.markdown("**VMpH** = Vente-migration mobile / Heure de travail")
+st.markdown("**VpH** = Vente-migration mobile / Heure de travail")
 st.markdown("---")
 
 # ============ DEUX ONGLETS ============
-tab1, tab2 = st.tabs(["🎯 Calcul Ventes Mobiles", "📈 Calcul VMpH"])
+tab1, tab2 = st.tabs(["🎯 Calcul Ventes Mobiles", "📈 Calcul VpH"])
 
 # ============ ONGLET 1: Calculer Ventes Mobiles ============
 with tab1:
@@ -31,12 +31,12 @@ with tab1:
     with col_gauche:
         st.subheader("📝 Données")
 
-        vmph_cible = st.number_input(
-            "🎯 VMpH Ciblé",
+        VpH_cible = st.number_input(
+            "🎯 VpH Ciblé",
             min_value=0.0,
             step=0.1,
             value=0.10,
-            key="vmph_target"
+            key="VpH_target"
         )
 
         heures_totales = st.number_input(
@@ -65,18 +65,18 @@ with tab1:
 
     # Calculs
     heures_restantes = max(0, heures_totales - heures_realisees)
-    ventes_necessaires = heures_totales * vmph_cible
+    ventes_necessaires = heures_totales * VpH_cible
     ventes_restantes = max(0, ventes_necessaires - ventes_realisees)
 
-    # VMpH réalisé du moment
-    vmph_realise = ventes_realisees / heures_realisees if heures_realisees > 0 else 0
+    # VpH réalisé du moment
+    VpH_realise = ventes_realisees / heures_realisees if heures_realisees > 0 else 0
 
     # Calcul de la progression en %
     progression_ventes = (ventes_realisees / max(ventes_necessaires, 1)) * 100
     progression_heures = (heures_realisees / max(heures_totales, 1)) * 100
 
     # Déterminer si objectif atteint
-    objectif_atteint = vmph_realise >= vmph_cible if heures_realisees > 0 else False
+    objectif_atteint = VpH_realise >= VpH_cible if heures_realisees > 0 else False
 
     # ============ COLONNE DROITE: TABLEAU DE BORD ============
     with col_droite:
@@ -87,11 +87,11 @@ with tab1:
             st.info("💡 Entrez les données pour le suivi!")
         else:
             if objectif_atteint:
-                st.success(f"🎉 **EXCELLENT!**\nVMpH: {vmph_realise:.4f} ≥ {vmph_cible:.4f} ⭐")
+                st.success(f"🎉 **EXCELLENT!**\nVpH: {VpH_realise:.4f} ≥ {VpH_cible:.4f} ⭐")
             else:
-                deficit = vmph_cible - vmph_realise
-                ventes_manquantes = max(0, heures_realisees * vmph_cible - ventes_realisees)
-                st.warning(f"⚠️ VMpH: {vmph_realise:.4f}\nManque: {deficit:.4f}\nVentes manquantes: {ventes_manquantes:.0f}")
+                deficit = VpH_cible - VpH_realise
+                ventes_manquantes = max(0, heures_realisees * VpH_cible - ventes_realisees)
+                st.warning(f"⚠️ VpH: {VpH_realise:.4f}\nManque: {deficit:.4f}\nVentes manquantes: {ventes_manquantes:.0f}")
 
         st.markdown("---")
 
@@ -107,9 +107,9 @@ with tab1:
         kpi3, kpi4 = st.columns(2)
         with kpi3:
             couleur = "📈" if objectif_atteint else "📉"
-            st.metric(f"{couleur} Réalisé", f"{vmph_realise:.4f}")
-            if vmph_cible > 0:
-                ecart_pct = ((vmph_realise / vmph_cible - 1) * 100)
+            st.metric(f"{couleur} Réalisé", f"{VpH_realise:.4f}")
+            if VpH_cible > 0:
+                ecart_pct = ((VpH_realise / VpH_cible - 1) * 100)
 
                 # Déterminer la couleur selon l'écart
                 if ecart_pct >= 0:
@@ -124,7 +124,7 @@ with tab1:
 
                 st.markdown(f"<p style='color:{couleur_text}; font-weight: bold;'>{color_html} Écart: {ecart_pct:+.1f}%</p>", unsafe_allow_html=True)
         with kpi4:
-            st.metric("🎯 Objectif", f"{vmph_cible:.4f}")
+            st.metric("🎯 Objectif", f"{VpH_cible:.4f}")
 
     st.markdown("---")
 
@@ -156,8 +156,8 @@ with tab1:
             "Ventes réalisées",
             "Ventes nécessaires",
             "Ventes restantes",
-            "VMpH Réalisé",
-            "Objectif VMpH"
+            "VpH Réalisé",
+            "Objectif VpH"
         ],
         "✅ Valeur": [
             f"{heures_realisees:.1f}h",
@@ -165,8 +165,8 @@ with tab1:
             f"{ventes_realisees:.0f}",
             f"{ventes_necessaires:.0f}",
             f"{ventes_restantes:.0f}",
-            f"{vmph_realise:.4f}",
-            f"{vmph_cible:.4f}"
+            f"{VpH_realise:.4f}",
+            f"{VpH_cible:.4f}"
         ]
     })
 
@@ -194,15 +194,15 @@ with tab1:
         st.download_button(
             label="📥 Télécharger CSV",
             data=csv_data,
-            file_name="recap_vmph.csv",
+            file_name="recap_VpH.csv",
             mime="text/csv; charset=utf-8",
             use_container_width=True
         )
 
-# ============ ONGLET 2: Calculer VMpH ============
+# ============ ONGLET 2: Calculer VpH ============
 with tab2:
-    st.header("📈 Calcul VMpH")
-    st.markdown("Entrez vos heures de travail et le nombre de ventes mobiles pour calculer votre VMpH")
+    st.header("📈 Calcul VpH")
+    st.markdown("Entrez vos heures de travail et le nombre de ventes mobiles pour calculer votre VpH")
 
     st.markdown("---")
 
@@ -226,7 +226,7 @@ with tab2:
         if heures_travail > 0:
             vph_resultat = vente_mobile / heures_travail
             st.success("✅ Résultat")
-            st.metric("VMpH", f"{vph_resultat:.4f}", help="Ventes mobiles par heure")
-            st.info(f"📊 **Détail du calcul:**\n\n{vente_mobile} ÷ {heures_travail} = **{vph_resultat:.4f} VMpH**")
+            st.metric("VpH", f"{vph_resultat:.4f}", help="Ventes mobiles par heure")
+            st.info(f"📊 **Détail du calcul:**\n\n{vente_mobile} ÷ {heures_travail} = **{vph_resultat:.4f} VpH**")
         else:
             st.error("❌ Le nombre d'heures doit être supérieur à 0")
